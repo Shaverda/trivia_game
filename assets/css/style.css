@@ -1,0 +1,14 @@
+body {
+	background-image: url("../images/hp.jpg");
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.container{
+	margin-top: 100px;
+	background-color: rgba(255,255,255,.6);
+	max-width: 50%;
+	text-align: center;
+	padding: 20px 30px 50px 30px;
+}
+
