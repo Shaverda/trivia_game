@@ -84,9 +84,11 @@ var questions = {
 	}
 var number_of_question = 1;
 var current_question = 1;
+var right_answers = 0;
+var wrong_answers = 0;
 
 function trivia_question(obj){
-	$(".question-area").html("<h3> " + obj["question"] + "</h3>");
+	$(".question-area").html(obj["question"]);
 	$(".answer-1").html(obj["answer_1"]);
 	$(".answer-2").html(obj["answer_2"]);
 	$(".answer-3").html(obj["answer_3"]);
@@ -104,14 +106,19 @@ function trivia_question(obj){
 	}
 	
 	$(".answers").on("click", function(){
-		if (this.textContent == obj["correct"]){ 3
-			console.log("u got it right");
-			$(".answer-feedback-area").html("Correct!");
+		if (this.textContent == obj["correct"]){ 
+			$(".question-area").html("Correct!");
+			$(".gif-area").append("<img src='assets/images/snape.gif'>");
+			right_answers++;
 		}
 		else {
 			console.log("ugh");
-			$(".answer-feedback-area").html("Incorrect!");
+			$(".question-area").html("Incorrect!");
+			$(".gif-area").append("<img src='assets/images/welp.gif' style='width:450px;height:354px;''>");
+			wrong_answers++;
 		}
+		$(".time-remaining").hide();
+		$(".answers").hide();
 	})
 	
 }
@@ -120,6 +127,7 @@ $(document).ready(function() {
 	$(".begin-game").on("click", function(){
 		console.log("clicked button");
 		$(".begin-game").remove();
+		
 		var obj = questions.one; 	//HOW DO WE GET TO NEXT QUESTION
 		trivia_question(obj);		//fix this so you don't directly have to call question #
 
