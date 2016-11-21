@@ -1,8 +1,10 @@
 //https://www.buzzfeed.com/psykt/will-you-survive-this-hard-harry-potter-trivia-qui-1ungl?utm_term=.jwL7e2pj2#.tiW05DzyD
+//TELL PEOPLE WHAT ANSWER WAS CORRECT!!!
+$(document).ready(function() {
 
 var questions = {
 		1 : {
-			"question" : "What's the name of Ballatrix's husband?",
+			"question" : "What's the name of Bellatrix's husband?",
 			"answer_1" : "Albert Lestrange",
 			"answer_2" : "Rolphius Lestrange",
 			"answer_3" : "Adolph Lestrange", 
@@ -82,73 +84,73 @@ var questions = {
 			"correct" : "Helga's diadem"
 		}				
 	}
-var current_question = 1;
-var right_answers = 0;
-var wrong_answers = 0;
+var current_question = 1;	//stores what number question you're on
+var right_answers = 0;		//keeps track of # you've gotten right
+var wrong_answers = 0;		//keeps track of # you've gotten wrong
 
 function trivia_question(){
-	var obj = questions[current_question]
-	
-	$(".score-chart").show();
-	$(".answers").show();
-	$(".correct-gif").hide();
-	$(".incorrect-gif").hide();
+	var obj = questions[current_question]	//
+	console.log(obj);
 
-	$(".question-area").html(obj["question"]);
-	$(".answer-1").html(obj["answer_1"]);
+	$(".score-chart").show();		//these are necessary because this 
+	$(".answers").show();			//function is called for every single question, 
+	$(".correct-gif").hide();		//meaning I essentially have to reset screen 
+	$(".incorrect-gif").hide();		//each time
+
+	$(".question-area").html(obj["question"]);	//re-writes current question
+	$(".answer-1").html(obj["answer_1"]);		//re-writes answers...
 	$(".answer-2").html(obj["answer_2"]);
 	$(".answer-3").html(obj["answer_3"]);
 	$(".answer-4").html(obj["answer_4"]);
 
-	var count = 30;
-	var counter = setInterval(timer, 1000);
-	$(".time-remaining").show();
+	var count = 2;				//user gets 30 seconds to guess
+	var counter = setInterval(timer, 1000);	//sets counter that counts down every second
+	$(".time-remaining").show();		
 
-	function timer(){
-		count--;
-		$(".time-remaining").html(count);
-		 if (count <= 0){
-		 	clearInterval(counter);
-		 	wrong_answers++;
+	function timer(){		//function to count down
+		count--;		//decrements count
+		$(".time-remaining").html(count + " seconds left");	//re-writes how much time left
+		 if (count <= 0){		//once user runs out of time
+		 	clearInterval(counter);	//clear interval
+		 	wrong_answers++;		//counted as wrong answers
 		 	$(".question-area").html("You ran outta time! Next question!");
-		 	$(".answers").hide();
-		 	setTimeout(trivia_question, 4000)
-		 	current_question++;
-		 	$(".time-remaining").hide();
-		 	console.log(current_question + " 118");
+		 	$(".answers").hide();	//hides answer choices
+		 	setTimeout(trivia_question, 4000)	//gives a brief waiting time before next quesiton called
+		 	current_question++;		//moves along to next question in object
+		 	$(".time-remaining").hide();	//hides time left if run outta question
+		 	console.log(current_question + " 118");	//trying to test to see why it skips questions.
 		}
 	}
 	
-	$(".answers").on("click", function(){
-		$(".answers").hide();
-		if (this.textContent == obj["correct"]){ 
-			$(".question-area").html("Correct!");
+	$(".answers").on("click", function(){	//once an answer choice is chosen
+		$(".answers").hide();	//hide other answers
+		if (this.textContent == obj["correct"]){ 	//checks to see if it matches correct answer in object
+			$(".question-area").html("Correct!");	
 			$(".correct-gif").show();
 			$(".incorrect-gif").hide(); 
 			right_answers++;
-			console.log(current_question + " 129");
+			console.log(current_question + " 129");	//trying to test to see why it skips questions.
 			
 		}
-		else {
+		else {		//enters if answer choice does not answer correct answer in object
 			console.log("ugh");
 			$(".question-area").html("Incorrect!");
-			wrong_answers++;
+			wrong_answers++;	
 			$(".incorrect-gif").show(); 
 			console.log(current_question + " 137");
 		}
+		clearInterval(counter);	//erases any time remaining from counter timeout on line 115ish
 		$(".score-chart").hide();
-		current_question++;
+		current_question++;	//enables you to move on to next question in trivia question call
 		$(".time-remaining").hide();
-		setTimeout(trivia_question, 4000)
-		clearInterval(counter);
+		setTimeout(trivia_question, 2000)	//sets a waiting before before calling next question
 		$(".question-number").html("Question " + current_question + "/10");
-		$(".scored-answers").html(right_answers + " question(s) correct out of " + (current_question -1)+ " question(s) so far.")
-		console.log(current_question + " 146");
+		$(".scored-answers").html(right_answers + " question(s) correct out of " + (current_question -1)+ " question(s)")
+		console.log(current_question + " 146");	//trying to test to see why it skips questions.
 	})
 	
 }
 
-$(document).ready(function() {
 	$(".correct-gif").hide();
 	$(".incorrect-gif").hide();							
 	$(".begin-game").on("click", function(){
