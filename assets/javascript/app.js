@@ -1,7 +1,7 @@
 //https://www.buzzfeed.com/psykt/will-you-survive-this-hard-harry-potter-trivia-qui-1ungl?utm_term=.jwL7e2pj2#.tiW05DzyD
 
 var questions = {
-		one : {
+		1 : {
 			"question" : "What's the name of Ballatrix's husband?",
 			"answer_1" : "Albert Lestrange",
 			"answer_2" : "Rolphius Lestrange",
@@ -82,12 +82,18 @@ var questions = {
 			"correct" : "Helga's diadem"
 		}				
 	}
-var number_of_question = 1;
 var current_question = 1;
 var right_answers = 0;
 var wrong_answers = 0;
 
-function trivia_question(obj){
+function trivia_question(){
+	var obj = questions[current_question]
+	
+	$(".score-chart").show();
+	$(".answers").show();
+	$(".correct-gif").hide();
+	$(".incorrect-gif").hide();
+
 	$(".question-area").html(obj["question"]);
 	$(".answer-1").html(obj["answer_1"]);
 	$(".answer-2").html(obj["answer_2"]);
@@ -96,41 +102,59 @@ function trivia_question(obj){
 
 	var count = 30;
 	var counter = setInterval(timer, 1000);
+	$(".time-remaining").show();
 
 	function timer(){
 		count--;
 		$(".time-remaining").html(count);
 		 if (count <= 0){
 		 	clearInterval(counter);
+		 	wrong_answers++;
+		 	$(".question-area").html("You ran outta time! Next question!");
+		 	$(".answers").hide();
+		 	setTimeout(trivia_question, 4000)
+		 	current_question++;
+		 	$(".time-remaining").hide();
+		 	console.log(current_question + " 118");
 		}
 	}
 	
 	$(".answers").on("click", function(){
+		$(".answers").hide();
 		if (this.textContent == obj["correct"]){ 
 			$(".question-area").html("Correct!");
-			$(".gif-area").append("<img src='assets/images/snape.gif'>");
+			$(".correct-gif").show();
+			$(".incorrect-gif").hide(); 
 			right_answers++;
+			console.log(current_question + " 129");
+			
 		}
 		else {
 			console.log("ugh");
 			$(".question-area").html("Incorrect!");
-			$(".gif-area").append("<img src='assets/images/welp.gif' style='width:450px;height:354px;''>");
 			wrong_answers++;
+			$(".incorrect-gif").show(); 
+			console.log(current_question + " 137");
 		}
+		$(".score-chart").hide();
+		current_question++;
 		$(".time-remaining").hide();
-		$(".answers").hide();
+		setTimeout(trivia_question, 4000)
+		clearInterval(counter);
+		$(".question-number").html("Question " + current_question + "/10");
+		$(".scored-answers").html(right_answers + " question(s) correct out of " + (current_question -1)+ " question(s) so far.")
+		console.log(current_question + " 146");
 	})
 	
 }
 
-$(document).ready(function() {						
+$(document).ready(function() {
+	$(".correct-gif").hide();
+	$(".incorrect-gif").hide();							
 	$(".begin-game").on("click", function(){
 		console.log("clicked button");
-		$(".begin-game").remove();
-		
-		var obj = questions.one; 	//HOW DO WE GET TO NEXT QUESTION
-		trivia_question(obj);		//fix this so you don't directly have to call question #
-
+		$(".begin-game").remove()
+		trivia_question();		//fix this so you don't directly have to call question #
 	}) //button on click close
 
 })	//document ready close
@@ -148,12 +172,6 @@ $(document).ready(function() {
 //maybe have object of objects w/ answer choices and 
 //functions to show correct answer questions with cool gif o whatever?
 
-        // /   <p class="time-remaining"> </p>
-        //    <p class="question-area"> </p>
-        //    <p class="answer-1"></p>
-        //    <p class="answer-2"></p>
-        //    <p class="answer-3"></p>
-        //    <p class="answer-4"></p>
 
 
 
