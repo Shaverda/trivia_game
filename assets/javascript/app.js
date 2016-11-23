@@ -1,6 +1,3 @@
-//https://www.buzzfeed.com/psykt/will-you-survive-this-hard-harry-potter-trivia-qui-1ungl?utm_term=.jwL7e2pj2#.tiW05DzyD
-//TELL PEOPLE WHAT ANSWER WAS CORRECT!!!
-
 
 $(document).ready(function() {
 
@@ -107,15 +104,16 @@ $(document).ready(function() {
 			right_answers++;			
 		}
 		else {		//enters if answer choice does not answer correct answer in object
-			$(".question-area").html("Incorrect!");
+			$(".question-area").html("Incorrect! Correct answer: " + obj.correct);
 			wrong_answers++;	
-			$(".incorrect-gif").show(); 
+			$(".incorrect-gif").show();
+
 		}
 		clearInterval(counter);	//erases any time remaining from counter timeout on line 115ish
 		$(".score-chart").hide();
 		current_question++;	//enables you to move on to next question in trivia question call
 		$(".time-remaining").hide();
-		setTimeout(setup_question, 2000)	//sets a waiting before before calling next question
+		setTimeout(setup_question, 4000)	//sets a waiting before before calling next question
 		$(".question-number").html("Question " + current_question + "/10");
 		$(".scored-answers").html(right_answers + " question(s) correct out of " + (current_question -1)+ " question(s)")
 	}
